@@ -109,17 +109,18 @@ macro(DO_FIND_CITYHASH_DOWNLOAD)
 		URL https://github.com/formath/cityhash/archive/${CITYHASH_REQUESTED_VERSION}.tar.gz
 		URL_HASH SHA256=01dd4080050dc5fbd806c4c66b5f09f9b86fb9ba73e4f1076ba31e907ac58f84
 		UPDATE_COMMAND ""
-		CONFIGURE_COMMAND ./configure --enable-sse4.2 --prefix=${CITYHASH_ROOT_DIR}
+		CONFIGURE_COMMAND ./configure --enable-sse4.2
 		BUILD_COMMAND make all check CXXFLAGS="-g -O3 -msse4.2"
 		BUILD_IN_SOURCE true
 		INSTALL_COMMAND ""
 		INSTALL_DIR ${CITYHASH_ROOT_DIR}
 		)
 
-	#ExternalProject_Get_Property(Cityhash INSTALL_DIR)
-	#set(CITYHASH_INCLUDE_DIRS ${INSTALL_DIR}/include)
-	find_path(CITYHASH_INCLUDE_DIR city.h ${CITYHASH_ROOT_DIR}/include)
-	find_library(CITYHASH_LIBRARY cityhash HINTS ${CITYHASH_ROOT_DIR}/lib)
+	ExternalProject_Get_Property(Cityhash INSTALL_DIR)
+	set(CITYHASH_INCLUDE_DIR ${INSTALL_DIR}/include)
+	set(CITYHASH_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}cityhash${LIBRARY_SUFFIX}))
+	#find_path(CITYHASH_INCLUDE_DIR city.h ${CITYHASH_ROOT_DIR}/include)
+	#find_library(CITYHASH_LIBRARY cityhash HINTS ${CITYHASH_ROOT_DIR}/lib)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Cityhash DEFAULT_MSG
 		CITYHASH_INCLUDE_DIR CITYHASH_LIBRARY
 		)
