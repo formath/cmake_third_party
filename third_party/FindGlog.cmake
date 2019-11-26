@@ -109,7 +109,7 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 		URL https://github.com/google/glog/archive/v0.3.5.zip
 		URL_HASH SHA256=267103f8a1e9578978aa1dc256001e6529ef593e5aea38193d31c2872ee025e8
 		UPDATE_COMMAND ""
-		CONFIGURE_COMMAND env CPPFLAGS='-I${GFLAGS_ROOT_DIR}/include' LDFLAGS='-L${GFLAGS_ROOT_DIR}/lib' ./configure --prefix=${GLOG_ROOT_DIR}
+		CONFIGURE_COMMAND export CPPFLAGS="-I${GFLAGS_ROOT_DIR}/include" && export LDFLAGS="-L${GFLAGS_ROOT_DIR}/lib" && ./configure --prefix=${GLOG_ROOT_DIR}
 		BUILD_COMMAND make
 		BUILD_IN_SOURCE true
 		INSTALL_COMMAND make install
