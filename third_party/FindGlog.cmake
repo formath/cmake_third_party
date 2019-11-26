@@ -107,7 +107,6 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 	ExternalProject_Add(
 		Glog
 		URL https://github.com/google/glog/archive/v${GLOG_REQUESTED_VERSION}.zip
-		DOWNLOAD_NAME glog-${GLOG_REQUESTED_VERSION}.tar.gz
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND ./autogen.sh && ./configure --prefix=${GLOG_ROOT_DIR}
 		BUILD_COMMAND make

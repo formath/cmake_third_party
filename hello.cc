@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     boost::any a = 1;
     LOG(INFO) << boost::any_cast<int>(a);
   } catch (boost::bad_any_cast &e) {
-    LOG(ERROR) << e.what() << '\n';
+    LOG(ERROR) << e.what();
   }
 
   // cityhash

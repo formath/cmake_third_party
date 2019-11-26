@@ -107,7 +107,6 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 	ExternalProject_Add(
 		Gflags
 		URL https://github.com/gflags/gflags/archive/v${GFLAGS_REQUESTED_VERSION}.zip
-		DOWNLOAD_NAME gflags-${GFLAGS_REQUESTED_VERSION}.tar.gz
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND mkdir build && cd build && ccmake ..
 		BUILD_COMMAND make

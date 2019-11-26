@@ -108,7 +108,6 @@ macro(DO_FIND_CITYHASH_DOWNLOAD)
 		Cityhash
 		URL https://github.com/formath/cityhash/archive/${CITYHASH_REQUESTED_VERSION}.tar.gz
 		URL_HASH SHA256=01dd4080050dc5fbd806c4c66b5f09f9b86fb9ba73e4f1076ba31e907ac58f84
-		DOWNLOAD_NAME cityhash-${CITYHASH_REQUESTED_VERSION}.tar.gz
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND ./configure --enable-sse4.2 --prefix=${CITYHASH_ROOT_DIR}
 		BUILD_COMMAND make all check CXXFLAGS="-g -O3 -msse4.2"

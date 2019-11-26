@@ -134,8 +134,8 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 		INSTALL_DIR ${BOOST_ROOT_DIR}
 		)
 
-	ExternalProject_Get_Property(Boost install_dir)
-	set(BOOST_INCLUDE_DIRS ${install_dir}/include)
+	ExternalProject_Get_Property(Boost INSTALL_DIR)
+	set(BOOST_INCLUDE_DIRS ${INSTALL_DIR}/include)
 
 	macro(libraries_to_fullpath varname)
 		set(${varname})
