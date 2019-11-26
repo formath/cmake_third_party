@@ -111,15 +111,14 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 		CONFIGURE_COMMAND ./autogen.sh && ./configure --prefix=${GLOG_ROOT_DIR}
 		BUILD_COMMAND make
 		BUILD_IN_SOURCE true
-		INSTALL_COMMAND ""
+		INSTALL_COMMAND make install
 		INSTALL_DIR ${GLOG_ROOT_DIR}
 		)
 
-	#ExternalProject_Get_Property(Glog INSTALL_DIR)
-	#set(GLOG_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	ExternalProject_Get_Property(Glog INSTALL_DIR)
+	set(GLOG_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	set(GLOG_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}glog${LIBRARY_SUFFIX}))
 
-	find_path(GLOG_INCLUDE_DIR city.h ${GLOG_ROOT_DIR}/include)
-	find_library(GLOG_LIBRARY glog HINTS ${GLOG_ROOT_DIR}/lib)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG
 		GLOG_INCLUDE_DIR GLOG_LIBRARY
 		)

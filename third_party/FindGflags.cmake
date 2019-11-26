@@ -108,18 +108,17 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 		Gflags
 		URL https://github.com/gflags/gflags/archive/v${GFLAGS_REQUESTED_VERSION}.zip
 		UPDATE_COMMAND ""
-		CONFIGURE_COMMAND mkdir build && cd build && ccmake ..
+		CONFIGURE_COMMAND mkdir build && cd build && ccmake .. --prefix=${GFLAGS_ROOT_DIR}
 		BUILD_COMMAND make
 		BUILD_IN_SOURCE true
-		INSTALL_COMMAND ""
+		INSTALL_COMMAND make install
 		INSTALL_DIR ${GFLAGS_ROOT_DIR}
 		)
 
-	#ExternalProject_Get_Property(Gflags INSTALL_DIR)
-	#set(GFLAGS_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	ExternalProject_Get_Property(Gflags INSTALL_DIR)
+	set(GFLAGS_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	set(GFLAGS_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}gflags${LIBRARY_SUFFIX}))
 
-	find_path(GFLAGS_INCLUDE_DIR city.h ${GFLAGS_ROOT_DIR}/include)
-	find_library(GFLAGS_LIBRARY gflags HINTS ${GFLAGS_ROOT_DIR}/lib)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Gflags DEFAULT_MSG
 		GFLAGS_INCLUDE_DIR GFLAGS_LIBRARY
 		)
