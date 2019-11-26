@@ -112,7 +112,7 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 		CONFIGURE_COMMAND mkdir -p build && cd build && cmake ..
 		BUILD_COMMAND cd build && make
 		BUILD_IN_SOURCE true
-		INSTALL_COMMAND cd build && make install prefix=${GFLAGS_ROOT_DIR}
+		INSTALL_COMMAND cd build && make install DESTDIR=${GFLAGS_ROOT_DIR}
 		INSTALL_DIR ${GFLAGS_ROOT_DIR}
 		)
 
