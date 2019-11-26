@@ -5,7 +5,7 @@ project(cmake_third_party VERSION 1.0)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/third_party)
 set(BOOST_REQUESTED_VERSION 1.61)
 set(BOOST_ROOT_DIR third_party/tmp/boost)
-find_package(Boost COMPONENTS system program_options)
+#find_package(Boost COMPONENTS system program_options)
 
 # cityhash
 set(CITYHASH_REQUESTED_VERSION 1.1.1)
@@ -35,7 +35,6 @@ include_directories(
 add_executable(hello hello.cc)
 target_link_libraries(
   hello 
-  ${BOOST_LIBRARIES} 
   ${CITYHASH_LIBRARIES}
   ${GLOG_LIBRARIES}
   ${GFLAGS_LIBRARIES}
