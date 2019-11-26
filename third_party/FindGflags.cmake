@@ -107,6 +107,7 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 	ExternalProject_Add(
 		Gflags
 		URL https://github.com/gflags/gflags/archive/v${GFLAGS_REQUESTED_VERSION}.zip
+		URL_HASH SHA256=19713a36c9f32b33df59d1c79b4958434cb005b5b47dc5400a7a4b078111d9b5
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND mkdir build && cd build && ccmake .. --prefix=${GFLAGS_ROOT_DIR}
 		BUILD_COMMAND make
