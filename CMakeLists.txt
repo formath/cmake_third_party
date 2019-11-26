@@ -9,20 +9,20 @@ set(BOOST_ROOT_DIR third_party/tmp/boost)
 
 # cityhash
 set(CITYHASH_REQUESTED_VERSION 1.1.1)
-set(CITYHASH_ROOT_DIR third_party/tmp/cityhash)
+set(CITYHASH_ROOT_DIR /opt/meituan/liujinpeng02/git/cmake_third_party/build/Cityhash-prefix/src/Cityhash)
 find_package(Cityhash)
 
 # glog
 #add_subdirectory(third_party/glog-0.4.0)
 set(GLOG_REQUESTED_VERSION 0.4.0)
 set(GLOG_USE_STATIC_LIBS false)
-set(GLOG_ROOT_DIR third_party/tmp/glog)
+set(GLOG_ROOT_DIR /opt/meituan/liujinpeng02/git/cmake_third_party/build/Glog-prefix/src/Glog)
 find_package(Glog)
 
 # gflags
 #add_subdirectory(third_party/gflags-2.2.2)
 set(GFLAGS_REQUESTED_VERSION 2.2.2)
-set(GFLAGS_ROOT_DIR third_party/tmp/gflags)
+set(GFLAGS_ROOT_DIR /opt/meituan/liujinpeng02/git/cmake_third_party/build/Gflags-prefix/src/Gflags)
 find_package(Gflags)
 
 include_directories(
