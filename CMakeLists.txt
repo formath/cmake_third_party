@@ -13,15 +13,15 @@ set(CITYHASH_ROOT_DIR /opt/meituan/liujinpeng02/git/cmake_third_party/build/City
 find_package(Cityhash)
 
 # glog
-#add_subdirectory(third_party/glog-0.4.0)
-set(GLOG_REQUESTED_VERSION 0.4.0)
+#add_subdirectory(third_party/glog-0.3.5)
+set(GLOG_REQUESTED_VERSION 0.3.5)
 set(GLOG_USE_STATIC_LIBS false)
 set(GLOG_ROOT_DIR /opt/meituan/liujinpeng02/git/cmake_third_party/build/Glog-prefix/src/Glog)
 find_package(Glog)
 
 # gflags
-#add_subdirectory(third_party/gflags-2.2.2)
-set(GFLAGS_REQUESTED_VERSION 2.2.2)
+#add_subdirectory(third_party/gflags-2.2.1)
+set(GFLAGS_REQUESTED_VERSION 2.2.1)
 set(GFLAGS_ROOT_DIR /opt/meituan/liujinpeng02/git/cmake_third_party/build/Gflags-prefix/src/Gflags)
 find_package(Gflags)
 
