@@ -110,9 +110,9 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 		URL_HASH SHA256=19713a36c9f32b33df59d1c79b4958434cb005b5b47dc5400a7a4b078111d9b5
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND mkdir -p build && cd build && cmake ..
-		BUILD_COMMAND make
+		BUILD_COMMAND cd build && make
 		BUILD_IN_SOURCE true
-		INSTALL_COMMAND make install
+		INSTALL_COMMAND cd build && make install
 		INSTALL_DIR ${GFLAGS_ROOT_DIR}
 		)
 
