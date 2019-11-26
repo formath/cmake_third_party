@@ -41,7 +41,7 @@
 #
 #  CITYHASH_USE_STATIC_LIBS : boolean (default: ON)
 
-
+set(CITYHASH_ROOT_DIR ${CMAKE_BINARY_DIR}/cityhash)
 set(CITYHASH_USE_STATIC_LIBS true)
 
 # Set the library prefix and library suffix properly.
@@ -92,12 +92,6 @@ macro(DO_FIND_CITYHASH_ROOT)
 endmacro()
 
 macro(DO_FIND_CITYHASH_DOWNLOAD)
-	if(NOT CITYHASH_REQUESTED_VERSION)
-		message(FATAL_ERROR "CITYHASH_REQUESTED_VERSION is not defined.")
-	endif()
-
-	string(REPLACE "." "_" CITYHASH_REQUESTED_VERSION_UNDERSCORE ${CITYHASH_REQUESTED_VERSION})
-
 	set(CITYHASH_MAYBE_STATIC)
 	if(CITYHASH_USE_STATIC_LIBS)
 		set(CITYHASH_MAYBE_STATIC "link=static")
@@ -106,11 +100,11 @@ macro(DO_FIND_CITYHASH_DOWNLOAD)
 	include(ExternalProject)
 	ExternalProject_Add(
 		Cityhash
-		URL https://github.com/formath/cityhash/archive/${CITYHASH_REQUESTED_VERSION}.tar.gz
+		URL https://github.com/formath/cityhash/archive/1.1.1.tar.gz
 		URL_HASH SHA256=01dd4080050dc5fbd806c4c66b5f09f9b86fb9ba73e4f1076ba31e907ac58f84
 		UPDATE_COMMAND ""
-		CONFIGURE_COMMAND ./configure --enable-sse4.2 --prefix=${CITYHASH_ROOT_DIR}
-		BUILD_COMMAND make all check CXXFLAGS="-g -O3 -msse4.2"
+		CONFIGURE_COMMAND ./configure --prefix=${CITYHASH_ROOT_DIR}
+		BUILD_COMMAND make all
 		BUILD_IN_SOURCE true
 		INSTALL_COMMAND make install
 		INSTALL_DIR ${CITYHASH_ROOT_DIR}

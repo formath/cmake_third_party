@@ -50,6 +50,7 @@ if(NOT Boost_FIND_COMPONENTS)
 	message(FATAL_ERROR "No COMPONENTS specified for Boost")
 endif()
 
+set(BOOST_ROOT_DIR ${CMAKE_BINARY_DIR}/boost)
 set(BOOST_USE_STATIC_LIBS true)
 
 # Set the library prefix and library suffix properly.
@@ -111,12 +112,6 @@ macro(DO_FIND_BOOST_ROOT)
 endmacro()
 
 macro(DO_FIND_BOOST_DOWNLOAD)
-	if(NOT BOOST_REQUESTED_VERSION)
-		message(FATAL_ERROR "BOOST_REQUESTED_VERSION is not defined.")
-	endif()
-
-	string(REPLACE "." "_" BOOST_REQUESTED_VERSION_UNDERSCORE ${BOOST_REQUESTED_VERSION})
-
 	set(BOOST_MAYBE_STATIC)
 	if(BOOST_USE_STATIC_LIBS)
 		set(BOOST_MAYBE_STATIC "link=static")
@@ -125,7 +120,7 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 	include(ExternalProject)
 	ExternalProject_Add(
 		Boost
-		URL https://downloads.sourceforge.net/project/boost/boost/${BOOST_REQUESTED_VERSION}/boost_${BOOST_REQUESTED_VERSION_UNDERSCORE}.zip
+		URL https://downloads.sourceforge.net/project/boost/boost/1.61/boost_1_61.zip
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND ./bootstrap.sh --prefix=${BOOST_ROOT_DIR}
 		BUILD_COMMAND ./b2 ${BOOST_MAYBE_STATIC} --prefix=${BOOST_ROOT_DIR} ${BOOST_COMPONENTS_FOR_BUILD} install

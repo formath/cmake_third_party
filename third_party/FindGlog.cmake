@@ -41,7 +41,7 @@
 #
 #  GLOG_USE_STATIC_LIBS : boolean (default: ON)
 
-
+set(GLOG_ROOT_DIR ${CMAKE_BINARY_DIR}/glog)
 set(GLOG_USE_STATIC_LIBS true)
 
 # Set the library prefix and library suffix properly.
@@ -92,12 +92,6 @@ macro(DO_FIND_GLOG_ROOT)
 endmacro()
 
 macro(DO_FIND_GLOG_DOWNLOAD)
-	if(NOT GLOG_REQUESTED_VERSION)
-		message(FATAL_ERROR "GLOG_REQUESTED_VERSION is not defined.")
-	endif()
-
-	string(REPLACE "." "_" GLOG_REQUESTED_VERSION_UNDERSCORE ${GLOG_REQUESTED_VERSION})
-
 	set(GLOG_MAYBE_STATIC)
 	if(GLOG_USE_STATIC_LIBS)
 		set(GLOG_MAYBE_STATIC "link=static")
@@ -109,15 +103,16 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 		URL https://github.com/google/glog/archive/v0.3.5.zip
 		URL_HASH SHA256=267103f8a1e9578978aa1dc256001e6529ef593e5aea38193d31c2872ee025e8
 		UPDATE_COMMAND ""
-		CONFIGURE_COMMAND export CPPFLAGS="-I${GFLAGS_ROOT_DIR}/include" && export LDFLAGS="-L${GFLAGS_ROOT_DIR}/lib" && ./configure --prefix=${GLOG_ROOT_DIR}
+		CONFIGURE_COMMAND ./configure --prefix=${GLOG_ROOT_DIR}
 		BUILD_COMMAND make
 		BUILD_IN_SOURCE true
 		INSTALL_COMMAND make install
 		INSTALL_DIR ${GLOG_ROOT_DIR}
 		)
 
+	#export CPPFLAGS="-I${GFLAGS_ROOT_DIR}/include" && export LDFLAGS="-L${GFLAGS_ROOT_DIR}/lib" 
 	ExternalProject_Get_Property(Glog INSTALL_DIR)
-	set(GLOG_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	set(GLOG_INCLUDE_DIR ${INSTALL_DIR}/include)
 	set(GLOG_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}glog${LIBRARY_SUFFIX})
 
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG

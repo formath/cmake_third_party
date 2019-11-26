@@ -41,7 +41,7 @@
 #
 #  GFLAGS_USE_STATIC_LIBS : boolean (default: ON)
 
-
+set(GFLAGS_ROOT_DIR ${CMAKE_BINARY_DIR}/gflags)
 set(GFLAGS_USE_STATIC_LIBS true)
 
 # Set the library prefix and library suffix properly.
@@ -92,12 +92,6 @@ macro(DO_FIND_GFLAGS_ROOT)
 endmacro()
 
 macro(DO_FIND_GFLAGS_DOWNLOAD)
-	if(NOT GFLAGS_REQUESTED_VERSION)
-		message(FATAL_ERROR "GFLAGS_REQUESTED_VERSION is not defined.")
-	endif()
-
-	string(REPLACE "." "_" GFLAGS_REQUESTED_VERSION_UNDERSCORE ${GFLAGS_REQUESTED_VERSION})
-
 	set(GFLAGS_MAYBE_STATIC)
 	if(GFLAGS_USE_STATIC_LIBS)
 		set(GFLAGS_MAYBE_STATIC "link=static")
@@ -117,7 +111,7 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 		)
 
 	ExternalProject_Get_Property(Gflags INSTALL_DIR)
-	set(GFLAGS_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	set(GFLAGS_INCLUDE_DIR ${INSTALL_DIR}/include)
 	set(GFLAGS_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}gflags${LIBRARY_SUFFIX})
 
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Gflags DEFAULT_MSG
