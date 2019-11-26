@@ -115,18 +115,16 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 		INSTALL_DIR ${GFLAGS_ROOT_DIR}
 		)
 
-	ExternalProject_Get_Property(Gflags INSTALL_DIR)
-	set(GFLAGS_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	#ExternalProject_Get_Property(Gflags INSTALL_DIR)
+	#set(GFLAGS_INCLUDE_DIRS ${INSTALL_DIR}/include)
 
-	macro(libraries_to_fullpath varname)
-		set(${varname})
-		list(APPEND ${varname} ${GFLAGS_ROOT_DIR}/lib/${LIBRARY_PREFIX}gflags${LIBRARY_SUFFIX})
-	endmacro()
-	libraries_to_fullpath(GFLAGS_LIBRARIES)
-
+	find_path(GFLAGS_INCLUDE_DIR city.h ${GFLAGS_ROOT_DIR}/include)
+	find_library(GFLAGS_LIBRARY gflags HINTS ${GFLAGS_ROOT_DIR}/lib)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Gflags DEFAULT_MSG
-		GFLAGS_INCLUDE_DIRS GFLAGS_LIBRARIES
+		GFLAGS_INCLUDE_DIR GFLAGS_LIBRARY
 		)
+	set(GFLAGS_LIBRARIES ${GFLAGS_LIBRARY})
+	set(GFLAGS_INCLUDE_DIRS ${GFLAGS_INCLUDE_DIR})
 	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS)
 endmacro()
 

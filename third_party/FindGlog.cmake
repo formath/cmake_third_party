@@ -115,18 +115,16 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 		INSTALL_DIR ${GLOG_ROOT_DIR}
 		)
 
-	ExternalProject_Get_Property(Glog INSTALL_DIR)
-	set(GLOG_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	#ExternalProject_Get_Property(Glog INSTALL_DIR)
+	#set(GLOG_INCLUDE_DIRS ${INSTALL_DIR}/include)
 
-	macro(libraries_to_fullpath varname)
-		set(${varname})
-		list(APPEND ${varname} ${GLOG_ROOT_DIR}/lib/${LIBRARY_PREFIX}glog${LIBRARY_SUFFIX})
-	endmacro()
-	libraries_to_fullpath(GLOG_LIBRARIES)
-
+	find_path(GLOG_INCLUDE_DIR city.h ${GLOG_ROOT_DIR}/include)
+	find_library(GLOG_LIBRARY glog HINTS ${GLOG_ROOT_DIR}/lib)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG
-		GLOG_INCLUDE_DIRS GLOG_LIBRARIES
+		GLOG_INCLUDE_DIR GLOG_LIBRARY
 		)
+	set(GLOG_LIBRARIES ${GLOG_LIBRARY})
+	set(GLOG_INCLUDE_DIRS ${GLOG_INCLUDE_DIR})
 	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS)
 endmacro()
 

@@ -116,18 +116,15 @@ macro(DO_FIND_CITYHASH_DOWNLOAD)
 		INSTALL_DIR ${CITYHASH_ROOT_DIR}
 		)
 
-	ExternalProject_Get_Property(Cityhash INSTALL_DIR)
-	set(CITYHASH_INCLUDE_DIRS ${INSTALL_DIR}/include)
-
-	macro(libraries_to_fullpath varname)
-		set(${varname})
-		list(APPEND ${varname} ${CITYHASH_ROOT_DIR}/lib/${LIBRARY_PREFIX}cityhash${LIBRARY_SUFFIX})
-	endmacro()
-	libraries_to_fullpath(CITYHASH_LIBRARIES)
-
+	#ExternalProject_Get_Property(Cityhash INSTALL_DIR)
+	#set(CITYHASH_INCLUDE_DIRS ${INSTALL_DIR}/include)
+	find_path(CITYHASH_INCLUDE_DIR city.h ${CITYHASH_ROOT_DIR}/include)
+	find_library(CITYHASH_LIBRARY cityhash HINTS ${CITYHASH_ROOT_DIR}/lib)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Cityhash DEFAULT_MSG
-		CITYHASH_INCLUDE_DIRS CITYHASH_LIBRARIES
+		CITYHASH_INCLUDE_DIR CITYHASH_LIBRARY
 		)
+	set(CITYHASH_LIBRARIES ${CITYHASH_LIBRARY})
+	set(CITYHASH_INCLUDE_DIRS ${CITYHASH_INCLUDE_DIR})
 	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS)
 endmacro()
 

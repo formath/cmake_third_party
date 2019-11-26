@@ -134,8 +134,10 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 		INSTALL_DIR ${BOOST_ROOT_DIR}
 		)
 
-	ExternalProject_Get_Property(Boost INSTALL_DIR)
-	set(BOOST_INCLUDE_DIRS ${INSTALL_DIR}/include)
+  find_path(BOOST_INCLUDE_DIR boost/config.hpp ${BOOST_ROOT_DIR}/include)
+  find_library(BOOST_LIBRARY ${BOOST_FIRST_COMPONENT} HINTS ${BOOST_ROOT_DIR}/lib)
+	#ExternalProject_Get_Property(Boost INSTALL_DIR)
+	#set(BOOST_INCLUDE_DIRS ${INSTALL_DIR}/include)
 
 	macro(libraries_to_fullpath varname)
 		set(${varname})
@@ -148,6 +150,8 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Boost DEFAULT_MSG
 		BOOST_INCLUDE_DIRS BOOST_LIBRARIES
 		)
+  set(BOOST_LIBRARIES ${BOOST_LIBRARY})
+  set(BOOST_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
 	mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS)
 endmacro()
 

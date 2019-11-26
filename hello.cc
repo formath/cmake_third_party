@@ -1,6 +1,6 @@
 #include <string>
 #include <glog/logging.h>
-#include <boost/any.hpp>
+//#include <boost/any.hpp>
 #include <city.h>
 
 void init_glog(char* name) {
@@ -16,12 +16,12 @@ int main(int argc, char* argv[]) {
   LOG(INFO) << "hello world";
 
   // boost
-  try {
-    boost::any a = 1;
-    LOG(INFO) << boost::any_cast<int>(a);
-  } catch (boost::bad_any_cast &e) {
-    LOG(ERROR) << e.what();
-  }
+  //try {
+  //  boost::any a = 1;
+  //  LOG(INFO) << boost::any_cast<int>(a);
+  //} catch (boost::bad_any_cast &e) {
+  //  LOG(ERROR) << e.what();
+  //}
 
   // cityhash
   std::string t("hello");
