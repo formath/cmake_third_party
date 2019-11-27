@@ -124,7 +124,8 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 	include(ExternalProject)
 	ExternalProject_Add(
 		Boost
-		URL https://downloads.sourceforge.net/project/boost/boost/1.61/boost_1_61.zip
+		URL https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz
+    URL_HASH SHA256=96b34f7468f26a141f6020efb813f1a2f3dfb9797ecf76a7d7cbd843cc95f5bd
 		UPDATE_COMMAND ""
 		CONFIGURE_COMMAND ./bootstrap.sh --prefix=${BOOST_ROOT_DIR}
 		BUILD_COMMAND ./b2 ${BOOST_MAYBE_STATIC} --prefix=${BOOST_ROOT_DIR} ${BOOST_COMPONENTS_FOR_BUILD} install
