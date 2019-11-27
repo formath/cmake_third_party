@@ -66,7 +66,7 @@ macro(DO_FIND_GFLAGS_SYSTEM)
 	message("GFLAGS_INCLUDE_DIR: " ${GFLAGS_INCLUDE_DIR})
 	find_library(GFLAGS_LIBRARY
 		NAMES gflags
-		PATHS /usr/local/lib /usr/lib
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
 		)
 	message("GFLAGS_LIBRARY: " ${GFLAGS_LIBRARY})
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Gflags DEFAULT_MSG

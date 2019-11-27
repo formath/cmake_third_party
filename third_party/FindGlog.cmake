@@ -66,7 +66,7 @@ macro(DO_FIND_GLOG_SYSTEM)
 	message("GLOG_INCLUDE_DIR: " ${GLOG_INCLUDE_DIR})
 	find_library(GLOG_LIBRARY
 		NAMES glog
-		PATHS /usr/local/lib /usr/lib
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
 		)
 	message("GLOG_LIBRARY: " ${GLOG_LIBRARY})
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG

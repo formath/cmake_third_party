@@ -65,7 +65,7 @@ macro(DO_FIND_CITYHASH_SYSTEM)
 		)
 	find_library(CITYHASH_LIBRARY
 		NAMES cityhash
-		PATHS /usr/local/lib /usr/lib
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
 		)
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Cityhash DEFAULT_MSG
 		CITYHASH_INCLUDE_DIR CITYHASH_LIBRARY

@@ -86,7 +86,7 @@ macro(DO_FIND_BOOST_SYSTEM)
   message("BOOST_INCLUDE_DIR: " ${BOOST_INCLUDE_DIR})
 	find_library(BOOST_LIBRARY
 		NAMES ${BOOST_FIRST_COMPONENT}
-		PATHS /usr/local/lib /usr/lib
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
 		)
   message("BOOST_LIBRARY: " ${BOOST_LIBRARY})
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Boost DEFAULT_MSG
