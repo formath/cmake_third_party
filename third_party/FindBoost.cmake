@@ -66,6 +66,9 @@ else()
 	set(LIBRARY_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
 
+message("CMAKE_STATIC_LIBRARY_SUFFIX: " ${CMAKE_STATIC_LIBRARY_SUFFIX})
+message("CMAKE_SHARED_LIBRARY_SUFFIX: " ${CMAKE_SHARED_LIBRARY_SUFFIX})
+
 # Create a list(string) for the build command (e.g. --with-program_options;--with-system)
 # and assigns it to BOOST_COMPONENTS_FOR_BUILD
 foreach(component ${Boost_FIND_COMPONENTS})
