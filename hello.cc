@@ -3,6 +3,7 @@
 #include <glog/logging.h>
 #include <boost/any.hpp>
 #include <city.h>
+#include "proto/hello.pb.h"
 
 void init_glog(char* name) {
   google::InitGoogleLogging(name);
@@ -29,6 +30,12 @@ int main(int argc, char* argv[]) {
   std::string t("hello world");
   uint64_t sign = CityHash64(t.c_str(), t.size());
   LOG(INFO) << sign;
+
+  // test protobuf
+  pb::KVPair kv_pair;
+  kv_pair.set_key("hello key");
+  kv_pair.set_value("hello value");
+  LOG(INFO) << kv_pair.key() << " " << kv_pair.value();
 
   return 0;
 }

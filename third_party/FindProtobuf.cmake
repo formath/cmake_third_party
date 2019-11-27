@@ -1,117 +1,166 @@
-###################################
-# https://gist.github.com/Manu343726/ae02bff2b0097525045a37a7c10303c9
-###################################
+# - Find Protobuf
+# 
+# Copyright (c) 2019 jinpengliu@163.com
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of
+# this software and associated documentation files (the "Software"), to deal in
+# the Software without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+# the Software, and to permit persons to whom the Software is furnished to do so,
+# subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+# This module finds if Protobuf is installed and determines where the
+# executables are. It sets the following variables:
+#
+#  PROTOBUF_FOUND : boolean            - system has Protobuf
+#  PROTOBUF_LIBRARIES : list(filepath) - the libraries needed to use Protobuf
+#  PROTOBUF_INCLUDE_DIRS : list(path)  - the Protobuf include directories
+#  PROTOC_BINARY : filepath  - the protoc binary
+#
+# If Protobuf is not found, this module downloads it according to the
+# following variables:
+#
+#  PROTOBUF_ROOT_DIR : path                - the Path where Protobuf will be installed on
+#  PROTOBUF_REQUESTED_VERSION : string     - the Protobuf version to be downloaded
+#
+# You can also specify its components:
+#
+#  find_package(Protobuf)
+#
+#
+# You can also specify its behavior:
+#
+#  PROTOBUF_USE_STATIC_LIBS : boolean (default: OFF)
 
-cmake_minimum_required(VERSION 3.4)
-project(MyProject)
+set(PROTOBUF_ROOT_DIR ${CMAKE_BINARY_DIR}/glog)
+set(PROTOBUF_USE_STATIC_LIBS true)
 
-if(NOT MY_PROJECT_PROTOBUF_VERSION)
-    set(MY_PROJECT_PROTOBUF_VERSION 2.6.1)
-endif()
-
-option(MY_PROJECT_SHARED_LIBS "Build proto modules as shared libraries" OFF)
-
-message(STATUS "Google Protocol Buffers version: ${MY_PROJECT_PROTOBUF_VERSION}")
-
-if(MY_PROJECT_SHARED_LIBS)
-    message(STATUS "Building proto modules as SHARED libraries")
+# Set the library prefix and library suffix properly.
+if(PROTOBUF_USE_STATIC_LIBS)
+	set(CMAKE_FIND_LIBRARY_PREFIXES ${CMAKE_STATIC_LIBRARY_PREFIX})
+	set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX})
+	set(LIBRARY_PREFIX ${CMAKE_STATIC_LIBRARY_PREFIX})
+	set(LIBRARY_SUFFIX ${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
-    message(STATUS "Building proto modules as SHARED libraries")
+	set(CMAKE_FIND_LIBRARY_PREFIXES ${CMAKE_SHARED_LIBRARY_PREFIX})
+	set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_SHARED_LIBRARY_SUFFIX})
+	set(LIBRARY_PREFIX ${CMAKE_SHARED_LIBRARY_PREFIX})
+	set(LIBRARY_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
 
-include(ExternalProject)
+include(FindPackageHandleStandardArgs)
 
-# Downloads and builds a given protobuf version, generating a protobuf target
-# with the include dir and binaries imported
-macro(configure_protobuf VERSION)
-    if(VERSION VERSION_LESS 3.0.0)
-        set(protobufPackage "protobuf-${VERSION}.zip")
-    else()
-        set(protobufPackage "protobuf-cpp-${VERSION}.zip")
-    endif()
-    set(protobufPackageUrl "https://github.com/google/protobuf/releases/download/v${VERSION}/${protobufPackage}")
-    set(protobufExternal protobuf-external)
-
-    ExternalProject_Add(${protobufExternal}
-        URL "${protobufPackageUrl}"
-        CONFIGURE_COMMAND
-            <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
-        BUILD_COMMAND ${MAKE}
-    )
-
-    set(protobufBinaryDir  "${CMAKE_BINARY_DIR}/${protobufExternal}-prefix/bin")
-    set(protobufLibraryDir "${CMAKE_BINARY_DIR}/${protobufExternal}-prefix/lib")
-    set(protobufCompiler   "${protobufBinaryDir}/protoc")
-
-    if(MY_PROJECT_SHARED_LIBS)
-        set(protobufLibrary "${protobufLibraryDir}/libprotobuf.so")
-    else()
-        set(protobufLibrary "${protobufLibraryDir}/libprotobuf.a")
-    endif()
-
-    set(protobufIncludeDir "${CMAKE_BINARY_DIR}/${protobufExternal}-prefix/include")
-
-    if(MY_PROJECT_SHARED_LIBS)
-        set(libType SHARED)
-    else()
-        set(libType STATIC)
-    endif()
-
-    add_library(protobuf_imported ${libType} IMPORTED)
-    add_dependencies(protobuf_imported ${protobufExternal})
-    set_target_properties(protobuf_imported PROPERTIES
-        IMPORTED_LOCATION "${protobufLibrary}"
-    )
-
-    add_library(protobuf INTERFACE)
-    target_include_directories(protobuf INTERFACE "${protobufIncludeDir}")
-    target_link_libraries(protobuf INTERFACE protobuf_imported)
+macro(DO_FIND_PROTOBUF_SYSTEM)
+	find_path(PROTOBUF_INCLUDE_DIR google/protobuf/message.h
+		PATHS /usr/local/include /usr/include
+		)
+	message("PROTOBUF_INCLUDE_DIR: " ${PROTOBUF_INCLUDE_DIR})
+	find_library(PROTOBUF_LIBRARY
+		NAMES protobuf
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
+		)
+	message("PROTOBUF_LIBRARY: " ${PROTOBUF_LIBRARY})
+	find_library(PROTOBUF_LITE_LIBRARY
+		NAMES protobuf-lite
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
+		)
+	message("PROTOBUF_LITE_LIBRARY: " ${PROTOBUF_LITE_LIBRARY})
+	find_program(PROTOC_BINARY
+		NAMES protoc
+		PATHS /usr/local/bin /usr/bin
+		)
+	message("PROTOC_BINARY: " ${PROTOC_BINARY})
+	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Protobuf DEFAULT_MSG
+		PROTOBUF_INCLUDE_DIR PROTOBUF_LIBRARY PROTOBUF_LITE_LIBRARY PROTOC_BINARY
+		)
+	list(APPEND PROTOBUF_LIBRARIES ${PROTOBUF_LIBRARY} ${PROTOBUF_LITE_LIBRARY})
+	set(PROTOBUF_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIR})
+	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS)
 endmacro()
 
-#
-# Use as follows:
-#
-# protobuf_generate_cpp(MyProtosLib myproto.proto myotherproto.proto)
-#
-# It generates a library target called "MyProtosLib" with the generated C++ code,
-# and linked to the downloaded protobuf distribution
-function(protobuf_generate_cpp LIBRARY)
-    set(PROTOS ${ARGN})
+macro(DO_FIND_PROTOBUF_ROOT)
+	if(NOT PROTOBUF_ROOT_DIR)
+		message(STATUS "PROTOBUF_ROOT_DIR is not defined, using binary directory.")
+		set(PROTOBUF_ROOT_DIR ${CURRENT_CMAKE_BINARY_DIR} CACHE PATH "")
+	endif()
 
-    foreach(proto ${PROTOS})
-        get_filename_component(PROTO_NAME "${proto}" NAME_WE)
+	find_path(PROTOBUF_INCLUDE_DIR google/protobuf/message.h ${PROTOBUF_ROOT_DIR}/include)
+	message("PROTOBUF_INCLUDE_DIR: " ${PROTOBUF_INCLUDE_DIR})
+	find_library(PROTOBUF_LIBRARY protobuf HINTS ${PROTOBUF_ROOT_DIR}/lib)
+	message("PROTOBUF_LIBRARY: " ${PROTOBUF_LIBRARY})
+	find_library(PROTOBUF_LITE_LIBRARY
+		NAMES protobuf-lite
+		PATHS /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64
+		)
+	message("PROTOBUF_LITE_LIBRARY: " ${PROTOBUF_LITE_LIBRARY})
+	find_program(PROTOC_BINARY
+		NAMES protoc
+		PATHS /usr/local/bin /usr/bin
+		)
+	message("PROTOC_BINARY: " ${PROTOC_BINARY})
+	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Protobuf DEFAULT_MSG
+		PROTOBUF_INCLUDE_DIR PROTOBUF_LIBRARY PROTOBUF_LITE_LIBRARY PROTOC_BINARY
+		)
+	list(APPEND PROTOBUF_LIBRARIES ${PROTOBUF_LIBRARY} ${PROTOBUF_LITE_LIBRARY})
+	set(PROTOBUF_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIR})
+	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS)
+endmacro()
 
-        set(PROTO_HEADER "${PROTO_NAME}.pb.h")
-        set(PROTO_SRC    "${PROTO_NAME}.pb.cc")
+macro(DO_FIND_PROTOBUF_DOWNLOAD)
+	set(PROTOBUF_MAYBE_STATIC)
+	if(PROTOBUF_USE_STATIC_LIBS)
+		set(PROTOBUF_MAYBE_STATIC "link=static")
+	endif()
 
-        message(STATUS "Protobuf ${proto} -> ${PROTO_SRC} ${PROTO_HEADER}")
+	include(ExternalProject)
+	ExternalProject_Add(
+		Protobuf
+		URL https://github.com/protocolbuffers/protobuf/archive/v3.11.0.tar.gz
+		URL_HASH SHA256=6d356a6279cc76d2d5c4dfa6541641264b59eae0bc96b852381361e3400d1f1c
+		UPDATE_COMMAND ""
+		CONFIGURE_COMMAND ./autogen.sh && ./configure --prefix=${PROTOBUF_ROOT_DIR}
+		BUILD_COMMAND make
+		BUILD_IN_SOURCE true
+		INSTALL_COMMAND make install
+		INSTALL_DIR ${PROTOBUF_ROOT_DIR}
+		)
 
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_SRC}"
-                   "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_HEADER}"
-                   COMMAND LIBRARY_PATH=${protobufLibraryDir} ${protobufCompiler}
-            ARGS --cpp_out ${CMAKE_CURRENT_BINARY_DIR} -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${proto}
-            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${proto}"
-            COMMENT "${proto} -> ${PROTO_SRC} ${PROTO_HEADER}"
-        )
+	ExternalProject_Get_Property(Protobuf INSTALL_DIR)
+	set(PROTOBUF_INCLUDE_DIR ${INSTALL_DIR}/include)
+	message("PROTOBUF_INCLUDE_DIR: " ${PROTOBUF_INCLUDE_DIR})
+	set(PROTOBUF_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}protobuf${LIBRARY_SUFFIX})
+	message("PROTOBUF_LIBRARY: " ${PROTOBUF_LIBRARY})
+	set(PROTOBUF_LITE_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}protobuf-lite${LIBRARY_SUFFIX})
+	message("PROTOBUF_LITE_LIBRARY: " ${PROTOBUF_LITE_LIBRARY})
+	set(PROTOC_BINARY ${INSTALL_DIR}/bin/protoc)
+	message("PROTOBUF_LIBRARY: " ${PROTOBUF_LIBRARY})
 
-        list(APPEND SOURCES "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_SRC}")
-        list(APPEND HEADERS "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_HEADER}")
-    endforeach()
+	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Protobuf DEFAULT_MSG
+		PROTOBUF_INCLUDE_DIR PROTOBUF_LIBRARY PROTOBUF_LITE_LIBRARY PROTOC_BINARY
+		)
+	list(APPEND PROTOBUF_LIBRARIES ${PROTOBUF_LIBRARY} ${PROTOBUF_LITE_LIBRARY})
+	set(PROTOBUF_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIR})
+	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS)
+endmacro()
 
+if(NOT PROTOBUF_FOUND)
+	DO_FIND_PROTOBUF_ROOT()
+endif()
 
+if(NOT PROTOBUF_FOUND)
+	DO_FIND_PROTOBUF_SYSTEM()
+endif()
 
-    if(MY_PROJECT_SHARED_LIBS)
-        set(libType SHARED)
-    else()
-        set(libType)
-    endif()
-
-    add_library(${LIBRARY} ${libType} ${SOURCES} ${HEADERS})
-    target_compile_options(${LIBRARY} PRIVATE -std=c++11)
-    target_link_libraries(${LIBRARY} PUBLIC protobuf)
-    target_include_directories(${LIBRARY} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-endfunction()
-
-configure_protobuf(${MY_PROJECT_PROTOBUF_VERSION})
+if(NOT PROTOBUF_FOUND)
+	DO_FIND_PROTOBUF_DOWNLOAD()
+endif()
