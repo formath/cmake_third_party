@@ -132,20 +132,10 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 	ExternalProject_Get_Property(Boost INSTALL_DIR)
 	set(BOOST_INCLUDE_DIR ${INSTALL_DIR}/include)
   set(BOOST_LIBRARY "")
-  message("BOOST_LIBRARY begin: " ${BOOST_LIBRARY})
   foreach(component ${Boost_FIND_COMPONENTS})
     list(APPEND BOOST_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}boost_${component}${LIBRARY_SUFFIX})
     list(APPEND BOOST_LIBRARY " ")
   endforeach()
-  message("BOOST_LIBRARY after: " ${BOOST_LIBRARY})
-
-	macro(libraries_to_fullpath varname)
-		set(${varname})
-		foreach(component ${Boost_FIND_COMPONENTS})
-			list(APPEND ${varname} ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}boost_${component}${LIBRARY_SUFFIX})
-		endforeach()
-	endmacro()
-	#libraries_to_fullpath(BOOST_LIBRARY)
 
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Boost DEFAULT_MSG
 		BOOST_INCLUDE_DIR BOOST_LIBRARY
