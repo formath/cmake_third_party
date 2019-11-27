@@ -39,10 +39,10 @@
 #
 # You can also specify its behavior:
 #
-#  CITYHASH_USE_STATIC_LIBS : boolean (default: ON)
+#  CITYHASH_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(CITYHASH_ROOT_DIR ${CMAKE_BINARY_DIR}/cityhash)
-set(CITYHASH_USE_STATIC_LIBS true)
+set(CITYHASH_USE_STATIC_LIBS false)
 
 # Set the library prefix and library suffix properly.
 if(CITYHASH_USE_STATIC_LIBS)

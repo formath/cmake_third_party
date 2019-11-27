@@ -44,14 +44,14 @@
 #
 # You can also specify its behavior:
 #
-#  BOOST_USE_STATIC_LIBS : boolean (default: ON)
+#  BOOST_USE_STATIC_LIBS : boolean (default: OFF)
 
 if(NOT Boost_FIND_COMPONENTS)
 	message(FATAL_ERROR "No COMPONENTS specified for Boost")
 endif()
 
 set(BOOST_ROOT_DIR ${CMAKE_BINARY_DIR}/boost)
-set(BOOST_USE_STATIC_LIBS true)
+set(BOOST_USE_STATIC_LIBS false)
 
 # Set the library prefix and library suffix properly.
 if(BOOST_USE_STATIC_LIBS)
@@ -65,9 +65,6 @@ else()
 	set(LIBRARY_PREFIX ${CMAKE_SHARED_LIBRARY_PREFIX})
 	set(LIBRARY_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
-
-message("CMAKE_STATIC_LIBRARY_SUFFIX: " ${CMAKE_STATIC_LIBRARY_SUFFIX})
-message("CMAKE_SHARED_LIBRARY_SUFFIX: " ${CMAKE_SHARED_LIBRARY_SUFFIX})
 
 # Create a list(string) for the build command (e.g. --with-program_options;--with-system)
 # and assigns it to BOOST_COMPONENTS_FOR_BUILD

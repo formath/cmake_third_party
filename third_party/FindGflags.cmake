@@ -39,10 +39,10 @@
 #
 # You can also specify its behavior:
 #
-#  GFLAGS_USE_STATIC_LIBS : boolean (default: ON)
+#  GFLAGS_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(GFLAGS_ROOT_DIR ${CMAKE_BINARY_DIR}/gflags)
-set(GFLAGS_USE_STATIC_LIBS true)
+set(GFLAGS_USE_STATIC_LIBS false)
 
 # Set the library prefix and library suffix properly.
 if(GFLAGS_USE_STATIC_LIBS)
