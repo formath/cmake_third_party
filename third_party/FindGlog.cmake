@@ -39,10 +39,10 @@
 #
 # You can also specify its behavior:
 #
-#  GLOG_USE_STATIC_LIBS : boolean (default: ON)
+#  GLOG_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(GLOG_ROOT_DIR ${CMAKE_BINARY_DIR}/glog)
-set(GLOG_USE_STATIC_LIBS true)
+set(GLOG_USE_STATIC_LIBS false)
 
 # Set the library prefix and library suffix properly.
 if(GLOG_USE_STATIC_LIBS)
@@ -63,10 +63,12 @@ macro(DO_FIND_GLOG_SYSTEM)
 	find_path(GLOG_INCLUDE_DIR glog/logging.h
 		PATHS /usr/local/include /usr/include
 		)
+	message("GLOG_INCLUDE_DIR: " ${GLOG_INCLUDE_DIR})
 	find_library(GLOG_LIBRARY
 		NAMES glog
 		PATHS /usr/local/lib /usr/lib
 		)
+	message("GLOG_LIBRARY: " ${GLOG_LIBRARY})
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG
 		GLOG_INCLUDE_DIR GLOG_LIBRARY
 		)
@@ -81,8 +83,10 @@ macro(DO_FIND_GLOG_ROOT)
 		set(GLOG_ROOT_DIR ${CURRENT_CMAKE_BINARY_DIR} CACHE PATH "")
 	endif()
 
-	find_path(GLOG_INCLUDE_DIR city.h ${GLOG_ROOT_DIR}/include)
+	find_path(GLOG_INCLUDE_DIR glog/logging.h ${GLOG_ROOT_DIR}/include)
+	message("GLOG_INCLUDE_DIR: " ${GLOG_INCLUDE_DIR})
 	find_library(GLOG_LIBRARY glog HINTS ${GLOG_ROOT_DIR}/lib)
+	message("GLOG_LIBRARY: " ${GLOG_LIBRARY})
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG
 		GLOG_INCLUDE_DIR GLOG_LIBRARY
 		)
@@ -113,7 +117,9 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 	#export CPPFLAGS="-I${GFLAGS_ROOT_DIR}/include" && export LDFLAGS="-L${GFLAGS_ROOT_DIR}/lib" 
 	ExternalProject_Get_Property(Glog INSTALL_DIR)
 	set(GLOG_INCLUDE_DIR ${INSTALL_DIR}/include)
+	message("GLOG_INCLUDE_DIR: " ${GLOG_INCLUDE_DIR})
 	set(GLOG_LIBRARY ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}glog${LIBRARY_SUFFIX})
+	message("GLOG_LIBRARY: " ${GLOG_LIBRARY})
 
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Glog DEFAULT_MSG
 		GLOG_INCLUDE_DIR GLOG_LIBRARY

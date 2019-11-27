@@ -6,24 +6,17 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/third_party)
 
 # boost
 find_package(Boost COMPONENTS system program_options)
-message("boost include path: " ${BOOST_INCLUDE_DIRS})
-message("boost lib path: " ${BOOST_LIBRARIES})
 
 # cityhash
 find_package(Cityhash)
-message("cityhash include path: " ${CITYHASH_INCLUDE_DIRS})
-message("cityhash lib path: " ${CITYHASH_LIBRARIES})
 
 # gflags
 find_package(Gflags)
-message("gflags include path: " ${GFLAGS_INCLUDE_DIRS})
-message("gflags lib path: " ${GFLAGS_LIBRARIES})
 
 # glog
 find_package(Glog)
-message("glog include path: " ${GLOG_INCLUDE_DIRS})
-message("glog lib path: " ${GLOG_LIBRARIES})
 
+# main code include path
 include_directories(
   ${BOOST_INCLUDE_DIRS}
   ${CITYHASH_INCLUDE_DIRS}
@@ -31,6 +24,7 @@ include_directories(
   ${GLOG_INCLUDE_DIRS}
   )
 
+# main target
 add_executable(hello hello.cc)
 target_link_libraries(
   hello 
