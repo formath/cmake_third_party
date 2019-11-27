@@ -135,6 +135,7 @@ macro(DO_FIND_BOOST_DOWNLOAD)
   foreach(component ${Boost_FIND_COMPONENTS})
     list(APPEND ${BOOST_LIBRARY} ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}boost_${component}${LIBRARY_SUFFIX})
   endforeach()
+  message("BOOST_LIBRARY: " ${BOOST_LIBRARY})
 
 	macro(libraries_to_fullpath varname)
 		set(${varname})
