@@ -135,13 +135,13 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 	macro(libraries_to_fullpath varname)
 		set(${varname})
 		foreach(component ${Boost_FIND_COMPONENTS})
-			list(APPEND ${varname} ${BOOST_ROOT_DIR}/lib/${LIBRARY_PREFIX}boost_${component}${LIBRARY_SUFFIX})
+			list(APPEND ${varname} ${INSTALL_DIR}/lib/${LIBRARY_PREFIX}boost_${component}${LIBRARY_SUFFIX})
 		endforeach()
 	endmacro()
 	libraries_to_fullpath(BOOST_LIBRARY)
 
 	FIND_PACKAGE_HANDLE_STANDARD_ARGS(Boost DEFAULT_MSG
-		BOOST_INCLUDE_DIRS BOOST_LIBRARIES
+		BOOST_INCLUDE_DIR BOOST_LIBRARY
 		)
   set(BOOST_LIBRARIES ${BOOST_LIBRARY})
   set(BOOST_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
