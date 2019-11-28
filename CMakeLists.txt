@@ -25,6 +25,7 @@ find_package(Protobuf)
 
 # compile pb
 include(proto/CMakeLists.txt)
+set_source_files_properties(${PB_SOURCES} ${PB_HEADERS} PROPERTIES GENERATED TRUE)
 
 # main code include path
 include_directories(
