@@ -6,6 +6,7 @@ common third dependencies
 * gflags
 * glog
 * cityhash
+* adding other packages ...
 
 ## find package
 * first search package in local machine
