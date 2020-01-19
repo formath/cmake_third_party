@@ -47,4 +47,4 @@ target_link_libraries(
   ${GLOG_LIBRARIES}
   ${PROTOBUF_LIBRARIES}
   )
-add_dependencies(hello COMPILE_PB)
+add_dependencies(hello ${PB_TARGETS})

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package pb_world;
+
+message KVPair {
+    string key = 1;
+    string value = 2;
+}

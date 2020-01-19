@@ -23,10 +23,11 @@ foreach(proto ${PROTOS})
     )
   message("compiled proto file: " ${PROTO_HEADER} " " ${PROTO_SRC})
 
-  set(COMPILE_PB "COMPILE_${PROTO_NAME}")
-  add_custom_target(COMPILE_PB ALL
+  set("COMPILE_PB_TARGET_${PROTO_NAME}" "COMPILE_${PROTO_NAME}")
+  add_custom_target("COMPILE_PB_TARGET_${PROTO_NAME}" ALL
     DEPENDS ${PROTO_HEADER} ${PROTO_SRC})
 
   list(APPEND PB_SOURCES ${PROTO_PATH}/${PROTO_SRC})
   list(APPEND PB_HEADERS ${PROTO_PATH}/${PROTO_HEADER})
+  list(APPEND PB_TARGETS "COMPILE_PB_TARGET_${PROTO_NAME}")
 endforeach()

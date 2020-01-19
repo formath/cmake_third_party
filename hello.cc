@@ -4,6 +4,7 @@
 #include <boost/any.hpp>
 #include <city.h>
 #include "proto/hello.pb.h"
+#include "proto/world.pb.h"
 
 void init_glog(char* name) {
   google::InitGoogleLogging(name);
@@ -33,9 +34,15 @@ int main(int argc, char* argv[]) {
 
   // test protobuf
   pb::KVPair kv_pair;
-  kv_pair.set_key("hello key");
-  kv_pair.set_value("hello value");
+  kv_pair.set_key("key");
+  kv_pair.set_value("hello");
   LOG(INFO) << kv_pair.key() << " " << kv_pair.value();
+
+  // test multiple protobuf
+  pb_world::KVPair kv_pair_2;
+  kv_pair_2.set_key("key");
+  kv_pair_2.set_value("world");
+  LOG(INFO) << kv_pair_2.key() << " " << kv_pair_2.value();
 
   return 0;
 }
