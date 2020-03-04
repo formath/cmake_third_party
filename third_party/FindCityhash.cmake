@@ -18,28 +18,6 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-# This module finds if Cityhash is installed and determines where the
-# executables are. It sets the following variables:
-#
-#  CITYHASH_FOUND : boolean            - system has Cityhash
-#  CITYHASH_LIBRARIES : list(filepath) - the libraries needed to use Cityhash
-#  CITYHASH_INCLUDE_DIRS : list(path)  - the Cityhash include directories
-#
-# If Cityhash is not found, this module downloads it according to the
-# following variables:
-#
-#  CITYHASH_ROOT_DIR : path                - the Path where Cityhash will be installed on
-#  CITYHASH_REQUESTED_VERSION : string     - the Cityhash version to be downloaded
-#
-# You can also specify its components:
-#
-#  find_package(Cityhash)
-#
-#
-# You can also specify its behavior:
-#
-#  CITYHASH_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(CITYHASH_ROOT_DIR ${CMAKE_BINARY_DIR}/cityhash)
 set(CITYHASH_USE_STATIC_LIBS false)
@@ -72,7 +50,9 @@ macro(DO_FIND_CITYHASH_SYSTEM)
 		)
 	set(CITYHASH_LIBRARIES ${CITYHASH_LIBRARY})
 	set(CITYHASH_INCLUDE_DIRS ${CITYHASH_INCLUDE_DIR})
-	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS)
+	get_filename_component(CITYHASH_LIB_DIR ${CITYHASH_LIBRARY} DIRECTORY)
+	set(CITYHASH_LIB_DIRS ${CITYHASH_LIB_DIR})
+	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS CITYHASH_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_CITYHASH_ROOT)
@@ -88,7 +68,9 @@ macro(DO_FIND_CITYHASH_ROOT)
 		)
 	set(CITYHASH_LIBRARIES ${CITYHASH_LIBRARY})
 	set(CITYHASH_INCLUDE_DIRS ${CITYHASH_INCLUDE_DIR})
-	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS)
+	get_filename_component(CITYHASH_LIB_DIR ${CITYHASH_LIBRARY} DIRECTORY)
+	set(CITYHASH_LIB_DIRS ${CITYHASH_LIB_DIR})
+	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS CITYHASH_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_CITYHASH_DOWNLOAD)
@@ -119,7 +101,9 @@ macro(DO_FIND_CITYHASH_DOWNLOAD)
 		)
 	set(CITYHASH_LIBRARIES ${CITYHASH_LIBRARY})
 	set(CITYHASH_INCLUDE_DIRS ${CITYHASH_INCLUDE_DIR})
-	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS)
+	get_filename_component(CITYHASH_LIB_DIR ${CITYHASH_LIBRARY} DIRECTORY)
+	set(CITYHASH_LIB_DIRS ${CITYHASH_LIB_DIR})
+	mark_as_advanced(CITYHASH_LIBRARIES CITYHASH_INCLUDE_DIRS CITYHASH_LIB_DIRS)
 endmacro()
 
 if(NOT CITYHASH_FOUND)

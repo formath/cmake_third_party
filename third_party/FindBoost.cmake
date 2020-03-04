@@ -4,7 +4,7 @@
 
 # - Find Boost
 # 
-# Copyright (c) 2016 Thiago Barroso Perrotta
+# Copyright (c) 2019 jinpengliu@163.com
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -22,29 +22,6 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-# This module finds if Boost is installed and determines where the
-# executables are. It sets the following variables:
-#
-#  BOOST_FOUND : boolean            - system has Boost
-#  BOOST_LIBRARIES : list(filepath) - the libraries needed to use Boost
-#  BOOST_INCLUDE_DIRS : list(path)  - the Boost include directories
-#
-# If Boost is not found, this module downloads it according to the
-# following variables:
-#
-#  BOOST_ROOT_DIR : path                - the Path where Boost will be installed on
-#  BOOST_REQUESTED_VERSION : string     - the Boost version to be downloaded
-#
-# You can also specify its components:
-#
-#  find_package(Boost COMPONENTS program_options system)
-#
-# which are stored in Boost_FIND_COMPONENTS : list(string)
-#
-# You can also specify its behavior:
-#
-#  BOOST_USE_STATIC_LIBS : boolean (default: OFF)
 
 if(NOT Boost_FIND_COMPONENTS)
 	message(FATAL_ERROR "No COMPONENTS specified for Boost")
@@ -94,7 +71,9 @@ macro(DO_FIND_BOOST_SYSTEM)
 		)
 	set(BOOST_LIBRARIES ${BOOST_LIBRARY})
 	set(BOOST_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
-	mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS)
+	get_filename_component(BOOST_LIB_DIR ${BOOST_LIBRARY} DIRECTORY)
+	set(BOOST_LIB_DIRS ${BOOST_LIB_DIR})
+	mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS BOOST_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_BOOST_ROOT)
@@ -112,7 +91,9 @@ macro(DO_FIND_BOOST_ROOT)
 		)
 	set(BOOST_LIBRARIES ${BOOST_LIBRARY})
 	set(BOOST_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
-	mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS)
+	get_filename_component(BOOST_LIB_DIR ${BOOST_LIBRARY} DIRECTORY)
+	set(BOOST_LIB_DIRS ${BOOST_LIB_DIR})
+	mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS BOOST_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_BOOST_DOWNLOAD)
@@ -149,7 +130,9 @@ macro(DO_FIND_BOOST_DOWNLOAD)
 		)
   set(BOOST_LIBRARIES ${BOOST_LIBRARY})
   set(BOOST_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
-	mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS)
+  get_filename_component(BOOST_LIB_DIR ${BOOST_LIBRARY} DIRECTORY)
+  set(BOOST_LIB_DIRS ${BOOST_LIB_DIR})
+  mark_as_advanced(BOOST_LIBRARIES BOOST_INCLUDE_DIRS BOOST_LIB_DIRS)
 endmacro()
 
 if(NOT BOOST_FOUND)

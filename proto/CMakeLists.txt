@@ -11,13 +11,13 @@ foreach(proto ${PROTOS})
   get_filename_component(PROTO_NAME ${proto} NAME_WE)
   get_filename_component(PROTO_PATH ${proto} DIRECTORY)
 
-  set(PROTO_HEADER "${PROTO_NAME}.pb.h")
-  set(PROTO_SRC    "${PROTO_NAME}.pb.cc")
+  set(PROTO_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/proto/gen-cpp/${PROTO_NAME}.pb.h")
+  set(PROTO_SRC    "${CMAKE_CURRENT_SOURCE_DIR}/proto/gen-cpp/${PROTO_NAME}.pb.cc")
 
   add_custom_command(
     OUTPUT ${PROTO_SRC} ${PROTO_HEADER}
     COMMAND LIBRARY_PATH=${PROTOBUF_LIB_PATH} ${PROTOC_BINARY}
-    ARGS --cpp_out ${PROTO_PATH} -I${PROTO_PATH} ${proto}
+    ARGS --cpp_out ${CMAKE_CURRENT_SOURCE_DIR}/proto --python_out ${CMAKE_CURRENT_SOURCE_DIR}/proto -I${PROTO_PATH} ${proto}
     WORKING_DIRECTORY "./"
     DEPENDS "${proto}"
     )

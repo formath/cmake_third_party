@@ -7,14 +7,21 @@
 * gflags
 * glog
 * cityhash
-* adding other packages ...
+* sparsehash
+* thrift
+* libevent
+* gperftools
+* eigen
 
 ### find package
 * first search package in local machine
 * if not exist, download package and build
 
-### compile pb
+### compile proto file
 * automatically compile proto files when building
+
+### compile thrift file
+* automatically compile thrift files when building
 
 ## Build this project as a demo
 ```

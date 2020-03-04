@@ -18,28 +18,6 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-# This module finds if Glog is installed and determines where the
-# executables are. It sets the following variables:
-#
-#  GLOG_FOUND : boolean            - system has Glog
-#  GLOG_LIBRARIES : list(filepath) - the libraries needed to use Glog
-#  GLOG_INCLUDE_DIRS : list(path)  - the Glog include directories
-#
-# If Glog is not found, this module downloads it according to the
-# following variables:
-#
-#  GLOG_ROOT_DIR : path                - the Path where Glog will be installed on
-#  GLOG_REQUESTED_VERSION : string     - the Glog version to be downloaded
-#
-# You can also specify its components:
-#
-#  find_package(Glog)
-#
-#
-# You can also specify its behavior:
-#
-#  GLOG_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(GLOG_ROOT_DIR ${CMAKE_BINARY_DIR}/glog)
 set(GLOG_USE_STATIC_LIBS false)
@@ -74,7 +52,9 @@ macro(DO_FIND_GLOG_SYSTEM)
 		)
 	set(GLOG_LIBRARIES ${GLOG_LIBRARY})
 	set(GLOG_INCLUDE_DIRS ${GLOG_INCLUDE_DIR})
-	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS)
+	get_filename_component(GLOG_LIB_DIR ${GLOG_LIBRARY} DIRECTORY)
+	set(GLOG_LIB_DIRS ${GLOG_LIB_DIR})
+	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS GLOG_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_GLOG_ROOT)
@@ -92,7 +72,9 @@ macro(DO_FIND_GLOG_ROOT)
 		)
 	set(GLOG_LIBRARIES ${GLOG_LIBRARY})
 	set(GLOG_INCLUDE_DIRS ${GLOG_INCLUDE_DIR})
-	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS)
+	get_filename_component(GLOG_LIB_DIR ${GLOG_LIBRARY} DIRECTORY)
+	set(GLOG_LIB_DIRS ${GLOG_LIB_DIR})
+	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS GLOG_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_GLOG_DOWNLOAD)
@@ -126,7 +108,9 @@ macro(DO_FIND_GLOG_DOWNLOAD)
 		)
 	set(GLOG_LIBRARIES ${GLOG_LIBRARY})
 	set(GLOG_INCLUDE_DIRS ${GLOG_INCLUDE_DIR})
-	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS)
+	get_filename_component(GLOG_LIB_DIR ${GLOG_LIBRARY} DIRECTORY)
+	set(GLOG_LIB_DIRS ${GLOG_LIB_DIR})
+	mark_as_advanced(GLOG_LIBRARIES GLOG_INCLUDE_DIRS GLOG_LIB_DIRS)
 endmacro()
 
 if(NOT GLOG_FOUND)

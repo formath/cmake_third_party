@@ -18,28 +18,6 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-# This module finds if Gflags is installed and determines where the
-# executables are. It sets the following variables:
-#
-#  GFLAGS_FOUND : boolean            - system has Gflags
-#  GFLAGS_LIBRARIES : list(filepath) - the libraries needed to use Gflags
-#  GFLAGS_INCLUDE_DIRS : list(path)  - the Gflags include directories
-#
-# If Gflags is not found, this module downloads it according to the
-# following variables:
-#
-#  GFLAGS_ROOT_DIR : path                - the Path where Gflags will be installed on
-#  GFLAGS_REQUESTED_VERSION : string     - the Gflags version to be downloaded
-#
-# You can also specify its components:
-#
-#  find_package(Gflags)
-#
-#
-# You can also specify its behavior:
-#
-#  GFLAGS_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(GFLAGS_ROOT_DIR ${CMAKE_BINARY_DIR}/gflags)
 set(GFLAGS_USE_STATIC_LIBS false)
@@ -74,7 +52,9 @@ macro(DO_FIND_GFLAGS_SYSTEM)
 		)
 	set(GFLAGS_LIBRARIES ${GFLAGS_LIBRARY})
 	set(GFLAGS_INCLUDE_DIRS ${GFLAGS_INCLUDE_DIR})
-	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS)
+	get_filename_component(GFLAGS_LIB_DIR ${GFLAGS_LIBRARY} DIRECTORY)
+	set(GFLAGS_LIB_DIRS ${GFLAGS_LIB_DIR})
+	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS GFLAGS_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_GFLAGS_ROOT)
@@ -92,7 +72,9 @@ macro(DO_FIND_GFLAGS_ROOT)
 		)
 	set(GFLAGS_LIBRARIES ${GFLAGS_LIBRARY})
 	set(GFLAGS_INCLUDE_DIRS ${GFLAGS_INCLUDE_DIR})
-	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS)
+	get_filename_component(GFLAGS_LIB_DIR ${GFLAGS_LIBRARY} DIRECTORY)
+	set(GFLAGS_LIB_DIRS ${GFLAGS_LIB_DIR})
+	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS GFLAGS_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_GFLAGS_DOWNLOAD)
@@ -125,7 +107,9 @@ macro(DO_FIND_GFLAGS_DOWNLOAD)
 		)
 	set(GFLAGS_LIBRARIES ${GFLAGS_LIBRARY})
 	set(GFLAGS_INCLUDE_DIRS ${GFLAGS_INCLUDE_DIR})
-	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS)
+	get_filename_component(GFLAGS_LIB_DIR ${GFLAGS_LIBRARY} DIRECTORY)
+	set(GFLAGS_LIB_DIRS ${GFLAGS_LIB_DIR})
+	mark_as_advanced(GFLAGS_LIBRARIES GFLAGS_INCLUDE_DIRS GFLAGS_LIB_DIRS)
 endmacro()
 
 if(NOT GFLAGS_FOUND)

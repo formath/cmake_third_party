@@ -23,9 +23,25 @@ find_package(Glog)
 # protobuf
 find_package(Protobuf)
 
+# sparsehash
+find_package(Sparsehash)
+
+# gperftools
+find_package(Gperftools)
+
+# thrift
+find_package(Thrift)
+
+# libevent
+find_package(Libevent)
+
 # compile pb
 include(proto/CMakeLists.txt)
 set_source_files_properties(${PB_SOURCES} ${PB_HEADERS} PROPERTIES GENERATED TRUE)
+
+# compile thrift
+include(thrift/CMakeLists.txt)
+set_source_files_properties(${THRIFT_SOURCES} ${THRIFT_HEADERS} PROPERTIES GENERATED TRUE)
 
 # main code include path
 include_directories(

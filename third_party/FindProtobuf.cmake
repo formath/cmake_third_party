@@ -18,29 +18,6 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-# This module finds if Protobuf is installed and determines where the
-# executables are. It sets the following variables:
-#
-#  PROTOBUF_FOUND : boolean            - system has Protobuf
-#  PROTOBUF_LIBRARIES : list(filepath) - the libraries needed to use Protobuf
-#  PROTOBUF_INCLUDE_DIRS : list(path)  - the Protobuf include directories
-#  PROTOC_BINARY : filepath  - the protoc binary
-#
-# If Protobuf is not found, this module downloads it according to the
-# following variables:
-#
-#  PROTOBUF_ROOT_DIR : path                - the Path where Protobuf will be installed on
-#  PROTOBUF_REQUESTED_VERSION : string     - the Protobuf version to be downloaded
-#
-# You can also specify its components:
-#
-#  find_package(Protobuf)
-#
-#
-# You can also specify its behavior:
-#
-#  PROTOBUF_USE_STATIC_LIBS : boolean (default: OFF)
 
 set(PROTOBUF_ROOT_DIR ${CMAKE_BINARY_DIR}/glog)
 set(PROTOBUF_USE_STATIC_LIBS true)
@@ -85,7 +62,9 @@ macro(DO_FIND_PROTOBUF_SYSTEM)
 		)
 	list(APPEND PROTOBUF_LIBRARIES ${PROTOBUF_LIBRARY} ${PROTOBUF_LITE_LIBRARY})
 	set(PROTOBUF_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIR})
-	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS)
+	get_filename_component(PROTOBUF_LIB_DIR ${PROTOBUF_LIBRARY} DIRECTORY)
+	set(PROTOBUF_LIB_DIRS ${PROTOBUF_LIB_DIR})
+	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS PROTOBUF_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_PROTOBUF_ROOT)
@@ -113,7 +92,9 @@ macro(DO_FIND_PROTOBUF_ROOT)
 		)
 	list(APPEND PROTOBUF_LIBRARIES ${PROTOBUF_LIBRARY} ${PROTOBUF_LITE_LIBRARY})
 	set(PROTOBUF_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIR})
-	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS)
+	get_filename_component(PROTOBUF_LIB_DIR ${PROTOBUF_LIBRARY} DIRECTORY)
+	set(PROTOBUF_LIB_DIRS ${PROTOBUF_LIB_DIR})
+	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS PROTOBUF_LIB_DIRS)
 endmacro()
 
 macro(DO_FIND_PROTOBUF_DOWNLOAD)
@@ -150,7 +131,9 @@ macro(DO_FIND_PROTOBUF_DOWNLOAD)
 		)
 	list(APPEND PROTOBUF_LIBRARIES ${PROTOBUF_LIBRARY} ${PROTOBUF_LITE_LIBRARY})
 	set(PROTOBUF_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIR})
-	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS)
+	get_filename_component(PROTOBUF_LIB_DIR ${PROTOBUF_LIBRARY} DIRECTORY)
+	set(PROTOBUF_LIB_DIRS ${PROTOBUF_LIB_DIR})
+	mark_as_advanced(PROTOBUF_LIBRARIES PROTOBUF_INCLUDE_DIRS PROTOBUF_LIB_DIRS)
 endmacro()
 
 if(NOT PROTOBUF_FOUND)
